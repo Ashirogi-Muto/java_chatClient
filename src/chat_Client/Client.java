@@ -98,7 +98,66 @@ public class Client extends JFrame {
 				showMessage("\n Don't know that object type");
 			}
 		}
-		while(!message.equals("SERVER - END"))
+		while(!message.equals("SERVER - END"));
+	}
+	
+	private void closeCrap()
+	{
+		showMessage("\nClosing everything down");
+		ableToType(false);
+		try
+		{
+			output.close();
+			input.close();
+			connection.close();
+		}
+		catch(IOException i)
+		{
+			i.printStackTrace();
+		}
+	}
+	
+	private void sendMessage(String message)
+	{
+		try
+		{
+			output.writeObject("Client: "+ message);
+			output.flush();
+			showMessage("\n Client - " + message);
+		}
+		catch(IOException i)
+		{
+			chatWindow.append("\n Something went wrong!!");
+		}
+		
+	}
+	
+	private void showMessage(final String m)
+	{
+		SwingUtilities.invokeLater
+		(
+				new Runnable()
+				{
+					public void run()
+					{
+						chatWindow.append(m);
+					}
+				}
+		);
+	}
+	
+	private void ableToType(final boolean tof)
+	{
+		SwingUtilities.invokeLater
+		(
+				new Runnable()
+				{
+					public void run()
+					{
+						userText.setEditable(tof);
+					}
+				}
+		);
 	}
 
 }
